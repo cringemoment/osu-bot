@@ -1,3 +1,4 @@
+#importing lots and lots of functions.
 from pynput.mouse import Button, Controller
 from pynput.keyboard import Key
 from pynput import keyboard
@@ -11,43 +12,6 @@ hr = False
 running = True
 
 #figuring out the code will be left as an excersise for the reader
-
-#altar
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\685822 That Poppy - Altar\That Poppy - Altar (-NeBu-) [I'm Poppy].osu"
-#mou ii kai
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\807850 THE ORAL CIGARETTES - Mou Ii kai\THE ORAL CIGARETTES - Mou ii Kai (Nevo) [Rain].osu"
-#galaxy collapse(cs0 but shouldnt matter anyway)
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1441793 Various Artists - CS-0 Jump Training 2\Various Artists - CS-0 Jump Training 2 (Julaaaan) [Galaxy Collapse [Galactic]].osu"
-#moonmen
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1287429 Various Artists - CS-0 Jump Training\Various Artists - CS-0 Jump Training (Julaaaan) [Goodbye Moonmen Remix [Pog]].osu"
-#chuchu
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1395111 Various Artists - CS-0 Jump Training 5\Various Artists - CS-0 Jump Training 5 (Julaaaan) [ChuChu Lovely MuniMuni MuraMura... [helloisuck's Love of Death]].osu"
-#daddy
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1395111 Various Artists - CS-0 Jump Training 5\Various Artists - CS-0 Jump Training 5 (Julaaaan) [DADDY ! DADDY ! DO ! feat. Suzuki Airi (TV Size) [pedri]].osu"
-#union
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\919187 765 MILLION ALLSTARS - UNION!!\765 MILLION ALLSTARS - UNION!! (Fu3ya_) [WE ARE ALL MILLION!!].osu"
-#crazy banger
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1441793 Various Artists - CS-0 Jump Training 2\Various Artists - CS-0 Jump Training 2 (Julaaaan) [Crazy Banger [PENGUINS]].osu"
-#dadada
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1287429 Various Artists - CS-0 Jump Training\Various Artists - CS-0 Jump Training (Julaaaan) [DADADADADADADADADADA (Long Version) [ULTRA BEZERK]].osu"
-#rasputin
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1520899 Various Artists - CS-0 Jump Training 6\Various Artists - CS-0 Jump Training 6 (Julaaaan) [RASPUTIN  [He Jumped it all and said Have good fun]].osu"
-#win the race(nightcore)
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1328892 Various Artists - CS-0 Jump Training 3\Various Artists - CS-0 Jump Training 3 (Julaaaan) [Win The Race (Nightcore Mix) [The Hero's Back In Town]].osu"
-#words
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1470072 Mage - The Words I Never Said\Mage - The Words I Never Said (Strategas) [Regret].osu"
-#last goodbye
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\744772 toby fox - Last Goodbye\toby fox - Last Goodbye (Fatfan Kolek) [Determination].osu"
-#ascension to heaven
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\34348 xi - Ascension to Heaven\xi - Ascension to Heaven (Shiirn) [Death].osu"
-#kimi no fieryrage
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\869019 Okazaki Taiiku - Kimi no Bouken (TV Size) [no video]\Okazaki Taiiku - Kimi no Bouken (TV Size) (fieryrage) [New Adventure!].osu"
-#anime ban fate
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1328892 Various Artists - CS-0 Jump Training 3\Various Artists - CS-0 Jump Training 3 (Julaaaan) [Yubi Bouenkyou ~Anime Ban~ [Fate] AR9].osu"
-#kroytz before
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\1301360 xi - Ascension to Heaven\xi - Ascension to Heaven (Kroytz) [Before the Final Moment].osu"
-#raise my cock
-#"C:\Users\huy cao\AppData\Local\osu!\Songs\889855 GALNERYUS - RAISE MY SWORD\GALNERYUS - RAISE MY SWORD (Sotarks) [A THOUSAND FLAMES].osu"
 
 #parsing the .oso fule
 song_path = r"C:\Users\huy cao\AppData\Local\osu!\Songs\1441793 Various Artists - CS-0 Jump Training 2\Various Artists - CS-0 Jump Training 2 (Julaaaan) [Galaxy Collapse [Galactic]].osu"
