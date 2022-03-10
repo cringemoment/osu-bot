@@ -14,7 +14,7 @@ running = True
 #figuring out the code will be left as an excersise for the reader
 
 #parsing the .oso fule
-song_path = r"C:\Users\huy cao\AppData\Local\osu!\Songs\1441793 Various Artists - CS-0 Jump Training 2\Various Artists - CS-0 Jump Training 2 (Julaaaan) [Galaxy Collapse [Galactic]].osu"
+song_path = r"some\path" #put the path to the song's .osu file here
 normalnotes = open("%s" % song_path, encoding = "utf8")
 targetpoints = open("%s" % song_path, encoding = "utf8") #probably don't need to open it twice, but oh well
 
@@ -96,7 +96,7 @@ accuratewait(1)
 prepos = [notes[0][0] / 614.4 * 1280 + 100, 1024 - (notes[0][1] / 460.8 * 1024 + 50) if hr else (notes[0][1] / 460.8 * 1024 + 100)]
 mouse.position = prepos[0], prepos[1]
 
-#waiting until the map fully starts
+#waiting until the color wheel is no longer green, meaning the map fully starts
 while True:
     screen = ImageGrab.grab()
 
@@ -156,7 +156,8 @@ while(len(notes) > 0) and running:
         elif(notes[0][3] == 6 or notes[0][3] == 2):
             #how long the slider is
             slidertime = (float(normalnotes[0][7]))/(slidervelocity * 100) * bpm/1000
-
+            
+            #just setting up some variables
             prepos = [notes[0][0] / 614.4 * 1280 + 100, 1024 - (notes[0][1] / 460.8 * 1024 + 50) if hr else (notes[0][1] / 460.8 * 1024 + 100)]
             slideranchors = normalnotes[0][5].split("|")
             lastnote = slideranchors[-1].split(":")
@@ -199,7 +200,7 @@ while(len(notes) > 0) and running:
             mouse.release(Button.left)
             mouse.position = notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100)
 
-        else: #This are the normal hitcircles
+        else: #This is for the normal hitcircles
             prepos = [notes[0][0] / 614.4 * 1280 + 100, 1024 - (notes[0][1] / 460.8 * 1024 + 50) if hr else (notes[0][1] / 460.8 * 1024 + 100)]
             mouse.position = prepos[0], prepos[1]
             targetpos = [notes[1][0] / 614.4 * 1280 + 140, 1024 - (notes[1][1] / 460.8 * 1024 + 90) if hr else (notes[1][1] / 460.8 * 1024 + 140)]
