@@ -8,6 +8,8 @@ The program _could_ work without relax, but it is 100% reccomended to use relax.
 
 ## Some clips of the bot in action
 FOOL MOON NIGHT Kan Saete Kuyashiiwa (itsumo) DTRX SS: https://www.youtube.com/watch?v=Gmn9ARyV7Mg
+  
 RASPUTIN - Love the way you move (He jumped it all and said Have good fun) DTRX four 100s: https://www.youtube.com/watch?v=tPNAa9YRuCw
+  
 Galaxy Collapse (Galatic) DTHRRX four 100s 2 50s: https://www.youtube.com/watch?v=zC1wRidAHeM
 
