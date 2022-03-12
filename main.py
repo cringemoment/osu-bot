@@ -7,13 +7,13 @@ from pynput import keyboard
 import time
 
 speedMultiplier = 1.5
-hr = True
+hr = False
 running = True
 
 #figuring out the code will be left as an excersise for the reader
 
 #parsing the .osu fule
-song_path = r"the\path\to\the\.osu\file\here"
+song_path = r"your\.osu\file\song\path\here"
 normalnotes = open("%s" % song_path, encoding = "utf8")
 targetpoints = open("%s" % song_path, encoding = "utf8") #probably don't need to open it twice, but oh well
 
@@ -99,14 +99,15 @@ mouse.position = prepos[0], prepos[1]
 while True:
     screen = ImageGrab.grab()
 
-    pixel = list(screen.getpixel((354, 67)))
+    pixel = list(screen.getpixel((355, 74)))
 
     if(not isgreen(pixel)):
         break
 
 #maps with skips are more janky so im using this EXTREMELY janky code to counterbalance
-if(int(normalnotes[0][2]) > 600):
-    accuratewait(int(normalnotes[0][2])/160000)
+if(int(normalnotes[0][2]) > 10000):
+    #accuratewait(int(normalnotes[0][2])/600000)
+    pass
 
 #getting when the beatmap started
 starttime = time.perf_counter() * 1000
@@ -114,6 +115,8 @@ starttime = time.perf_counter() * 1000
 #assigning some variables for the sliders
 bpm = float(timingpoints[0][1])
 slidervelocity = preslidervelocity if hr else preslidervelocity
+
+print(notes)
 
 #running over the entire song
 while(len(notes) > 0) and running:
@@ -142,17 +145,18 @@ while(len(notes) > 0) and running:
 
                 #the triangle spin???? not clickbait???
                 mouse.position = 640, 480
-                accuratewait(0.003)
+                accuratewait(0.004)
                 mouse.position = 600, 540
-                accuratewait(0.003)
+                accuratewait(0.004)
                 mouse.position = 680, 540
-                accuratewait(0.003)
+                accuratewait(0.004)
 
             mouse.release(Button.left)
             mouse.position = notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100)
 
         #slider!!!!!! EW
         elif(notes[0][3] == 6 or notes[0][3] == 2):
+            mouse.press(Button.left)
             #how long the slider is
             slidertime = (float(normalnotes[0][7]))/(slidervelocity * 100) * bpm/1000
 
@@ -190,17 +194,23 @@ while(len(notes) > 0) and running:
             mouse.release(Button.left)
 
         else: #This are the normal hitcircles
+            mouse.click(Button.left, 1)
             prepos = [notes[0][0] / 614.4 * 1280 + 100, 1024 - (notes[0][1] / 460.8 * 1024 + 50) if hr else (notes[0][1] / 460.8 * 1024 + 100)]
             mouse.position = prepos[0], prepos[1]
-            targetpos = [notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100)]
-            timebetween = (notes[1][2] - notes[0][2])/1000
-            distance = [targetpos[0] - prepos[0], targetpos[1] - prepos[1]]
 
-            #interpolation between the circles. 
-            for i in range(10):
-                accuratewait(timebetween/15/speedMultiplier)
-                mouse.move(distance[0]/10, distance[1]/10)
-            mouse.click(Button.left, 1)
+            #interpolating between hitcircles
+            try:
+                targetpos = [notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100)]
+                timebetween = (notes[1][2] - notes[0][2])/1000
+                distance = [targetpos[0] - prepos[0], targetpos[1] - prepos[1]]
+
+
+                #interpolation between the circles. Reduce the 50 and 200 for faster movement, but rougher aim.
+                for i in range(10):
+                    accuratewait(timebetween/15/speedMultiplier)
+                    mouse.move(distance[0]/10, distance[1]/10)
+            except:
+                print("Done.")
 
         notes.pop(0)
         normalnotes.pop(0)
