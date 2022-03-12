@@ -1,4 +1,3 @@
-#importing lots and lots of functions.
 from pynput.mouse import Button, Controller
 from pynput.keyboard import Key
 from pynput import keyboard
@@ -8,13 +7,13 @@ from pynput import keyboard
 import time
 
 speedMultiplier = 1.5
-hr = False
+hr = True
 running = True
 
 #figuring out the code will be left as an excersise for the reader
 
-#parsing the .oso fule
-song_path = r"some\path" #put the path to the song's .osu file here
+#parsing the .osu fule
+song_path = r"the\path\to\the\.osu\file\here"
 normalnotes = open("%s" % song_path, encoding = "utf8")
 targetpoints = open("%s" % song_path, encoding = "utf8") #probably don't need to open it twice, but oh well
 
@@ -96,7 +95,7 @@ accuratewait(1)
 prepos = [notes[0][0] / 614.4 * 1280 + 100, 1024 - (notes[0][1] / 460.8 * 1024 + 50) if hr else (notes[0][1] / 460.8 * 1024 + 100)]
 mouse.position = prepos[0], prepos[1]
 
-#waiting until the color wheel is no longer green, meaning the map fully starts
+#waiting until the map fully starts
 while True:
     screen = ImageGrab.grab()
 
@@ -106,7 +105,7 @@ while True:
         break
 
 #maps with skips are more janky so im using this EXTREMELY janky code to counterbalance
-if(int(normalnotes[0][2]) > 10000):
+if(int(normalnotes[0][2]) > 600):
     accuratewait(int(normalnotes[0][2])/160000)
 
 #getting when the beatmap started
@@ -114,7 +113,7 @@ starttime = time.perf_counter() * 1000
 
 #assigning some variables for the sliders
 bpm = float(timingpoints[0][1])
-slidervelocity = preslidervelocity
+slidervelocity = preslidervelocity if hr else preslidervelocity
 
 #running over the entire song
 while(len(notes) > 0) and running:
@@ -123,9 +122,9 @@ while(len(notes) > 0) and running:
 
     #timing points suck
     try:
-        if(float(timingpoints[0][0]) <= currenttime):
+        if(float(timingpoints[0][0]) - timing <= currenttime):
             if(float(timingpoints[0][1]) < 0):
-                slidervelocity = preslidervelocity * (100/(float(timingpoints[0][1]) * -1))
+                slidervelocity = preslidervelocity * (100/(float(timingpoints[0][1]) * -1)) if hr else preslidervelocity * (100/(float(timingpoints[0][1]) * -1))
             else:
                 bpm = float(timingpoints[0][1])
             timingpoints.pop(0)
@@ -156,61 +155,51 @@ while(len(notes) > 0) and running:
         elif(notes[0][3] == 6 or notes[0][3] == 2):
             #how long the slider is
             slidertime = (float(normalnotes[0][7]))/(slidervelocity * 100) * bpm/1000
-            
-            #just setting up some variables
+
             prepos = [notes[0][0] / 614.4 * 1280 + 100, 1024 - (notes[0][1] / 460.8 * 1024 + 50) if hr else (notes[0][1] / 460.8 * 1024 + 100)]
             slideranchors = normalnotes[0][5].split("|")
             lastnote = slideranchors[-1].split(":")
-
-            timebetween = (notes[1][2] - notes[0][2])/1000/speedMultiplier
 
             targetpos = [int(lastnote[0]) / 614.4 * 1280 + 100, 1024 - (int(lastnote[1]) / 460.8 * 1024 + 50) if hr else (int(lastnote[1]) / 460.8 * 1024 + 100)]
             mouse.position = prepos[0], prepos[1]
             distance = [targetpos[0] - prepos[0], targetpos[1] - prepos[1]]
 
             targetpos, prepos = prepos, targetpos
+            #interpolation stuff
+            for j in range(int(normalnotes[0][6])):
+                targetpos, prepos = prepos, targetpos
+                distance = [targetpos[0] - prepos[0], targetpos[1] - prepos[1]]
+                mouse.position = prepos[0], prepos[1]
 
-            #checking if we can abuse slider leniency
-            if(abs(distance[0]) > 100 or abs(distance[1]) > 100):
-
-                #interpolation stuff
-                for j in range(int(normalnotes[0][6])):
-                    targetpos, prepos = prepos, targetpos
-                    distance = [targetpos[0] - prepos[0], targetpos[1] - prepos[1]]
-                    mouse.position = prepos[0], prepos[1]
-
-                    for i in range(20):
-                        accuratewait(slidertime/20/speedMultiplier)
-                        mouse.move(distance[0]/20, distance[1]/20)
-            #nah, just wait
-            else:
-                accuratewait(slidertime/speedMultiplier * int(normalnotes[0][6]))
+                for i in range(10):
+                    accuratewait(slidertime/10/speedMultiplier)
+                    mouse.move(distance[0]/10, distance[1]/10)
 
             mouse.press(Button.left)
             newtargetpos = [notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100)]
             distance = [newtargetpos[0] - targetpos[0], newtargetpos[1] - targetpos[1]]
 
-            #Not using this right now
-            """
+            #Interpolating from a slider
+            timebetween = (notes[1][2] - notes[0][2])/1000
             for i in range(10):
-                accuratewait(0.001)
+                accuratewait((timebetween - slidertime * int(normalnotes[0][6]))/15/speedMultiplier)
                 mouse.move(distance[0]/10, distance[1]/10)
-            """
+
+            mouse.position = (notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100))
 
             mouse.release(Button.left)
-            mouse.position = notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100)
 
-        else: #This is for the normal hitcircles
+        else: #This are the normal hitcircles
             prepos = [notes[0][0] / 614.4 * 1280 + 100, 1024 - (notes[0][1] / 460.8 * 1024 + 50) if hr else (notes[0][1] / 460.8 * 1024 + 100)]
             mouse.position = prepos[0], prepos[1]
-            targetpos = [notes[1][0] / 614.4 * 1280 + 140, 1024 - (notes[1][1] / 460.8 * 1024 + 90) if hr else (notes[1][1] / 460.8 * 1024 + 140)]
+            targetpos = [notes[1][0] / 614.4 * 1280 + 100, 1024 - (notes[1][1] / 460.8 * 1024 + 50) if hr else (notes[1][1] / 460.8 * 1024 + 100)]
             timebetween = (notes[1][2] - notes[0][2])/1000
             distance = [targetpos[0] - prepos[0], targetpos[1] - prepos[1]]
 
-            #interpolation between the circles. Reduce the 50 and 200 for faster movement, but rougher aim.
-            for i in range(50):
-                accuratewait(timebetween/200)
-                mouse.move(distance[0]/50, distance[1]/50)
+            #interpolation between the circles. 
+            for i in range(10):
+                accuratewait(timebetween/15/speedMultiplier)
+                mouse.move(distance[0]/10, distance[1]/10)
             mouse.click(Button.left, 1)
 
         notes.pop(0)
